@@ -7,11 +7,15 @@ import de.doridian.yiffbungee.util.YiffBungeeCommandException;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class ICommand extends Command {
-	public @interface Names { String[] value(); }
-	public @interface Permission { String value(); }
+	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.TYPE) public @interface Names { String[] value(); }
+	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.TYPE) public @interface Permission { String value(); }
 
 	private final String permission;
 
@@ -26,6 +30,11 @@ public abstract class ICommand extends Command {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static void registerCommand(Class<? extends ICommand> cmdClass) {
+		final ICommand iCmd = constructCommand(cmdClass);
+		YiffBungee.instance.getProxy().getPluginManager().registerCommand(YiffBungee.instance, iCmd);
 	}
 
 	protected ICommand(String name, String permission, String[] aliases) {

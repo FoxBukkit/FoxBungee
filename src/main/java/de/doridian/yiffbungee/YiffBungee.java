@@ -1,6 +1,7 @@
 package de.doridian.yiffbungee;
 
 import de.doridian.yiffbungee.bans.listeners.BansPlayerListener;
+import de.doridian.yiffbungee.permissions.commands.ReloadPermissionsCommand;
 import de.doridian.yiffbungee.util.PlayerHelper;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
@@ -20,6 +21,8 @@ public class YiffBungee extends Plugin implements Listener {
 
 		getProxy().getPluginManager().registerListener(this, new BansPlayerListener());
 		getProxy().getPluginManager().registerListener(this, this);
+
+		ICommand.registerCommand(ReloadPermissionsCommand.class);
 	}
 
 	@EventHandler
