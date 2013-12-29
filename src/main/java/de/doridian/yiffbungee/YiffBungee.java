@@ -27,6 +27,8 @@ public class YiffBungee extends Plugin implements Listener {
 		pluginManager.registerListener(this, YiffBungeePermissionHandler.instance);
 
 		ICommand.registerCommand(ReloadPermissionsCommand.class);
+
+		YiffBungeePermissionHandler.instance.reload();
 	}
 
 	@EventHandler

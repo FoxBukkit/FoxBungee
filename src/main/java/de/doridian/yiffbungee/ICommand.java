@@ -14,12 +14,17 @@ import java.lang.annotation.Target;
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class ICommand extends Command {
-	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.TYPE) public @interface Names { String[] value(); }
-	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.TYPE) public @interface Permission { String value(); }
+	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.TYPE) public @interface Command {
+		String[] names();
+		String usage() default "";
+		String help() default "";
+		String permission() default "yiffbukkit.no.one.is.allowed.except.asterisk.people\n";
+	}
 
 	public static ICommand constructCommand(Class<? extends ICommand> cmdClass) {
-		final String[] names = cmdClass.getAnnotation(Names.class).value();
-		final String permission = cmdClass.getAnnotation(Permission.class).value();
+		Command commandAnnotation =  cmdClass.getAnnotation(Command.class);
+		final String[] names = commandAnnotation.names();
+		final String permission = commandAnnotation.permission();
 		String[] aliases = new String[names.length - 1];
 		System.arraycopy(names, 1, aliases, 0, aliases.length);
 		try {
