@@ -17,8 +17,6 @@ public abstract class ICommand extends Command {
 	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.TYPE) public @interface Names { String[] value(); }
 	@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.TYPE) public @interface Permission { String value(); }
 
-	private final String permission;
-
 	public static ICommand constructCommand(Class<? extends ICommand> cmdClass) {
 		final String[] names = cmdClass.getAnnotation(Names.class).value();
 		final String permission = cmdClass.getAnnotation(Permission.class).value();
@@ -38,16 +36,11 @@ public abstract class ICommand extends Command {
 	}
 
 	protected ICommand(String name, String permission, String[] aliases) {
-		super(name, "yiffbukkit.basecommand", aliases);
-		this.permission = permission;
+		super(name, permission, aliases);
 	}
 
 	@Override
 	public final void execute(CommandSender commandSender, String[] strings) {
-		if(!YiffBungeePermissionHandler.instance.has(commandSender, permission)) {
-			PlayerHelper.sendDirectedMessage(commandSender, "Access denied");
-			return;
-		}
 		try {
 			run(commandSender, strings, Utils.concatArray(strings, 0, ""));
 		} catch (YiffBungeeCommandException e) {

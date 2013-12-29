@@ -4,6 +4,9 @@ import de.doridian.yiffbungee.YiffBungee;
 import de.doridian.yiffbungee.util.RedisManager;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.PermissionCheckEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,8 +15,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-public class YiffBungeePermissionHandler {
+public class YiffBungeePermissionHandler implements Listener {
 	public static final YiffBungeePermissionHandler instance = new YiffBungeePermissionHandler();
+
+	@EventHandler
+	public void onPermissionCheck(PermissionCheckEvent event) {
+		event.setHasPermission(has(event.getSender(), event.getPermission()));
+	}
 
 	class GroupWorld {
 		public final String group;
