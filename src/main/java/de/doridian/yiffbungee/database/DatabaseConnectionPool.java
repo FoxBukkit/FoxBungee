@@ -13,7 +13,11 @@ import java.sql.SQLException;
 public class DatabaseConnectionPool {
 	private static PoolingDataSource dataSource;
 
-    public static DatabaseConnectionPool instance = new DatabaseConnectionPool();
+	static void initMe() {
+		instance = new DatabaseConnectionPool();
+	}
+
+    public static DatabaseConnectionPool instance;
 
     private DatabaseConnectionPool() {
 		try {

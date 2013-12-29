@@ -34,11 +34,6 @@ public abstract class ICommand extends Command {
 		}
 	}
 
-	public static void registerCommand(Class<? extends ICommand> cmdClass) {
-		final ICommand iCmd = constructCommand(cmdClass);
-		YiffBungee.instance.getProxy().getPluginManager().registerCommand(YiffBungee.instance, iCmd);
-	}
-
 	protected ICommand(String name, String permission, String[] aliases) {
 		super(name, permission, aliases);
 	}
