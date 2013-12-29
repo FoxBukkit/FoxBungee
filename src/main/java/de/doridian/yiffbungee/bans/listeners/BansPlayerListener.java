@@ -6,7 +6,7 @@ import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-public class MCBansPlayerListener implements Listener {
+public class BansPlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerPreLogin(PreLoginEvent event) {
 		String name = event.getConnection().getName();
