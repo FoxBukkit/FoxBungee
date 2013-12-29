@@ -1,4 +1,4 @@
-package de.doridian.yiffbungee.util;
+package de.doridian.yiffbungee.main.util;
 
 public class PlayerFindException extends YiffBungeeCommandException {
 	private static final long serialVersionUID = 1L;

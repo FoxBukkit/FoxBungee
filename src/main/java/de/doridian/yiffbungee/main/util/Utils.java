@@ -1,4 +1,4 @@
-package de.doridian.yiffbungee.util;
+package de.doridian.yiffbungee.main.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,6 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;

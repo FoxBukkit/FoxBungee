@@ -1,15 +1,10 @@
-package de.doridian.yiffbungee.util;
+package de.doridian.yiffbungee.main.util;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RedisManager {
 	public static final JedisPool readJedisPool = createPool("mc.arcticfox.doridian.net");

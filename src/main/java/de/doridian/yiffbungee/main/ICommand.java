@@ -1,9 +1,8 @@
-package de.doridian.yiffbungee;
+package de.doridian.yiffbungee.main;
 
-import de.doridian.yiffbungee.permissions.YiffBungeePermissionHandler;
-import de.doridian.yiffbungee.util.PlayerHelper;
-import de.doridian.yiffbungee.util.Utils;
-import de.doridian.yiffbungee.util.YiffBungeeCommandException;
+import de.doridian.yiffbungee.main.util.PlayerHelper;
+import de.doridian.yiffbungee.main.util.Utils;
+import de.doridian.yiffbungee.main.util.YiffBungeeCommandException;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 

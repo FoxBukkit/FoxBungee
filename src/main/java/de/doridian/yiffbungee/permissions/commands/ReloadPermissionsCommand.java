@@ -1,9 +1,9 @@
 package de.doridian.yiffbungee.permissions.commands;
 
-import de.doridian.yiffbungee.ICommand;
+import de.doridian.yiffbungee.main.ICommand;
+import de.doridian.yiffbungee.main.util.PlayerHelper;
+import de.doridian.yiffbungee.main.util.YiffBungeeCommandException;
 import de.doridian.yiffbungee.permissions.YiffBungeePermissionHandler;
-import de.doridian.yiffbungee.util.PlayerHelper;
-import de.doridian.yiffbungee.util.YiffBungeeCommandException;
 import net.md_5.bungee.api.CommandSender;
 
 @ICommand.Command(names = "greloadpermissions", permission = "yiffbungee.reloadpermissions")

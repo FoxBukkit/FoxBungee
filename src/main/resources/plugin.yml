@@ -1,4 +1,4 @@
 name: YiffBungee
-main : de.doridian.yiffbungee.YiffBungee
+main : de.doridian.yiffbungee.main.YiffBungee
 version: 0.0.1
 author: Doridian

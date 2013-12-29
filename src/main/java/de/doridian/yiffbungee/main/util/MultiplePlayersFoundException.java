@@ -1,4 +1,4 @@
-package de.doridian.yiffbungee.util;
+package de.doridian.yiffbungee.main.util;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 

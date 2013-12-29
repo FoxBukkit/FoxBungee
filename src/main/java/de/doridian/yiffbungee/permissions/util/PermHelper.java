@@ -1,6 +1,6 @@
 package de.doridian.yiffbungee.permissions.util;
 
-import de.doridian.yiffbungee.YiffBungee;
+import de.doridian.yiffbungee.main.YiffBungee;
 import de.doridian.yiffbungee.permissions.YiffBungeePermissionHandler;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

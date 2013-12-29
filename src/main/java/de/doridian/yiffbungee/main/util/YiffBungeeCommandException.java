@@ -1,4 +1,4 @@
-package de.doridian.yiffbungee.util;
+package de.doridian.yiffbungee.main.util;
 
 public class YiffBungeeCommandException extends Exception {
 	private static final long serialVersionUID = 1L;
