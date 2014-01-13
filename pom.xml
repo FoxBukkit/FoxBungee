@@ -80,13 +80,13 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>net.md-5</groupId>
+			<groupId>de.doridian</groupId>
 			<artifactId>bungeecord-api</artifactId>
 			<version>1.7-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
-            <groupId>net.md-5</groupId>
+            <groupId>de.doridian</groupId>
             <artifactId>bungeecord-event</artifactId>
             <version>1.7-SNAPSHOT</version>
             <scope>provided</scope>
