@@ -12,6 +12,13 @@ public class BansPlayerListener extends YiffBungeeListener {
 		String name = event.getConnection().getName();
 
 		Ban ban = BanResolver.getBan(name);
+		if(ban == null) {
+			ban = BanResolver.getBan("[IP]" + event.getConnection().getAddress().getAddress().getHostAddress());
+			if(ban != null) {
+				ban.setUser(name);
+				BanResolver.addBan(ban);
+			}
+		}
 		if(ban != null) {
 			event.setCancelReason("[YB] Banned: " + ban.getReason());
 			event.setCancelled(true);
