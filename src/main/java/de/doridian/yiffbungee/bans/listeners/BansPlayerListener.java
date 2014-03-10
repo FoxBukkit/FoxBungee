@@ -14,8 +14,7 @@ public class BansPlayerListener extends YiffBungeeListener {
 
 		Ban ban = BanResolver.getBan(name, uuid);
 		if(ban == null) {
-			String bUUID = "[IP]" + event.getConnection().getAddress().getAddress().getHostAddress();
-			ban = BanResolver.getBan(bUUID, bUUID);
+			ban = BanResolver.getBan("[IP]" + event.getConnection().getAddress().getAddress().getHostAddress(), null);
 			if(ban != null) {
 				ban.setUser(name, uuid);
 				ban.refreshTime();
