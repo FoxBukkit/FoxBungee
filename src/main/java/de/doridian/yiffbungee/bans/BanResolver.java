@@ -1,4 +1,5 @@
 package de.doridian.yiffbungee.bans;
+
 import de.doridian.yiffbungee.database.DatabaseConnectionPool;
 
 import java.lang.ref.SoftReference;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 
 public class BanResolver {
 	private static HashMap<String, Integer> playerIDs = new HashMap<>();
-	private static HashMap<Integer, String> playerUUIDs = new HashMap<>();
+	private static HashMap<Integer, BanPlayer> playerUUIDs = new HashMap<>();
 	private static HashMap<Integer, SoftReference<Ban>> playerBans = new HashMap<>();
 
 	private static final long BAN_MAX_AGE_MILLIS = 60 * 1000;
@@ -55,7 +56,7 @@ public class BanResolver {
 				int player = resultSet.getInt("player");
 				if(player == userID)
 					continue;
-				String ply = getUserByID(player);
+				String ply = getUserByID(player).uuid;
 				if(ply == null || ply.isEmpty()) {
 					ply = "#" + player;
 					System.out.println("INVALID PLAYER #" + player);
@@ -143,19 +144,20 @@ public class BanResolver {
 		}
 	}
 
-	public static String getUserByID(int id) {
+	public static BanPlayer getUserByID(int id) {
 		if(playerUUIDs.containsKey(id)) {
 			return playerUUIDs.get(id);
 		}
 		try {
 			Connection connection = DatabaseConnectionPool.instance.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT name FROM players WHERE id = ?");
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT uuid, name FROM players WHERE id = ?");
 			preparedStatement.setInt(1, id);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			String ret = null;
+			BanPlayer ret = null;
 			if(resultSet.next()) {
-				ret = resultSet.getString("name");
-				playerIDs.put(ret, id);
+				String uuid = resultSet.getString("uuid");
+				ret = new BanPlayer(uuid, resultSet.getString("name"));
+				playerIDs.put(uuid, id);
 				playerUUIDs.put(id, ret);
 			}
 			preparedStatement.close();
@@ -185,7 +187,7 @@ public class BanResolver {
 
 		if(uuid != null && playerIDs.containsKey(uuid))
 			return playerIDs.get(uuid);
-		
+
 		try {
 			Connection connection = DatabaseConnectionPool.instance.getConnection();
 			PreparedStatement preparedStatement;
@@ -201,8 +203,6 @@ public class BanResolver {
 			if(resultSet.next()) {
 				ret = resultSet.getInt("id");
 				uuid = resultSet.getString("uuid");
-				playerIDs.put(uuid, ret);
-				playerUUIDs.put(ret, uuid);
 				if(!resultSet.getString("name").equals(username)) {
 					username = resultSet.getString("name");
 					preparedStatement.close();
@@ -211,6 +211,8 @@ public class BanResolver {
 					preparedStatement.setString(2, uuid);
 					preparedStatement.execute();
 				}
+				playerIDs.put(uuid, ret);
+				playerUUIDs.put(ret, new BanPlayer(uuid, username));
 			} else if(create) {
 				if(uuid == null)
 					throw new RuntimeException("Cannot create player without UUID");
@@ -223,7 +225,7 @@ public class BanResolver {
 				if(resultSet.next()) {
 					ret = resultSet.getInt(1);
 					playerIDs.put(uuid, ret);
-					playerUUIDs.put(ret, uuid);
+					playerUUIDs.put(ret, new BanPlayer(uuid, username));
 				}
 			}
 			preparedStatement.close();
