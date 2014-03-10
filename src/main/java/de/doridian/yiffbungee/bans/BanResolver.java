@@ -177,8 +177,13 @@ public class BanResolver {
 
 		if(username != null && username.charAt(0) == '[')
 			uuid = username;
+		else if(uuid != null && uuid.charAt(0) == '[')
+			username = uuid;
 
-		if(playerIDs.containsKey(uuid))
+		if(uuid == null)
+			uuid = FishBansResolver.getUUID(username);
+
+		if(uuid != null && playerIDs.containsKey(uuid))
 			return playerIDs.get(uuid);
 		
 		try {
