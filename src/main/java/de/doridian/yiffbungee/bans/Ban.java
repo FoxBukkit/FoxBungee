@@ -20,7 +20,7 @@ public class Ban {
 
 	public Ban() {
 		this.retrievalTime = System.currentTimeMillis();
-		this.time = (int)(this.retrievalTime / 1000);
+		refreshTime();
 	}
 
 	public String getReason() {
@@ -47,12 +47,12 @@ public class Ban {
 		return BanResolver.getUserByID(user);
 	}
 
-	public void setUser(String user) {
-		this.user = BanResolver.getUserID(user, true);
+	public void setUser(String username, String uuid) {
+		this.user = BanResolver.getUserID(username, uuid, true);
 	}
 
-	public void setAdmin(String admin) {
-		this.admin = BanResolver.getUserID(admin, true);
+	public void setAdmin(String adminname, String uuid) {
+		this.admin = BanResolver.getUserID(adminname, uuid, true);
 	}
 
 	public void setUser(int user) {
@@ -71,7 +71,10 @@ public class Ban {
 		this.type = type;
 	}
 
+	public void refreshTime() { this.time = (int)(System.currentTimeMillis() / 1000); }
+
 	public int getTime() {
 		return time;
 	}
 }
+

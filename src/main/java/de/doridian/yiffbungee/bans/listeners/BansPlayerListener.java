@@ -10,12 +10,15 @@ public class BansPlayerListener extends YiffBungeeListener {
 	@EventHandler
 	public void onPlayerPreLogin(PreLoginEvent event) {
 		String name = event.getConnection().getName();
+		String uuid = event.getConnection().getUUID();
 
-		Ban ban = BanResolver.getBan(name);
+		Ban ban = BanResolver.getBan(name, uuid);
 		if(ban == null) {
-			ban = BanResolver.getBan("[IP]" + event.getConnection().getAddress().getAddress().getHostAddress());
+			String bUUID = "[IP]" + event.getConnection().getAddress().getAddress().getHostAddress();
+			ban = BanResolver.getBan(bUUID, bUUID);
 			if(ban != null) {
-				ban.setUser(name);
+				ban.setUser(name, uuid);
+				ban.refreshTime();
 				BanResolver.addBan(ban);
 			}
 		}
