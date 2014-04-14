@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class BanResolver {
-	private static HashMap<String, Integer> playerIDs = new HashMap<>();
+	private static HashMap<UUID, Integer> playerIDs = new HashMap<>();
 	private static HashMap<Integer, BanPlayer> playerUUIDs = new HashMap<>();
 	private static HashMap<Integer, SoftReference<Ban>> playerBans = new HashMap<>();
 
@@ -155,9 +155,9 @@ public class BanResolver {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			BanPlayer ret = null;
 			if(resultSet.next()) {
-				String uuidStr = resultSet.getString("uuid");
-				ret = new BanPlayer(uuidStr, resultSet.getString("name"));
-				playerIDs.put(uuidStr, id);
+				UUID uuid = UUID.fromString(resultSet.getString("uuid"));
+				ret = new BanPlayer(uuid, resultSet.getString("name"));
+				playerIDs.put(uuid, id);
 				playerUUIDs.put(id, ret);
 			}
 			preparedStatement.close();
@@ -174,26 +174,23 @@ public class BanResolver {
 	}
 
 	public static int getUserID(String username, UUID uuid, boolean create) {
-		String uuidStr = uuid != null ? uuid.toString().toLowerCase().replace("-", "") : null;
 		username = username != null ? username.toLowerCase() : null;
 
 		if(username != null && username.charAt(0) == '[')
-			uuidStr = username;
-		else if(uuid != null && uuidStr.charAt(0) == '[')
-			username = uuidStr;
+			uuid = UUID.nameUUIDFromBytes(("SPECIAL:" + username).getBytes());
 
-		if(uuidStr == null)
-			uuidStr = FishBansResolver.getUUID(username);
+		if(uuid == null)
+			uuid = FishBansResolver.getUUID(username);
 
-		if(uuid != null && playerIDs.containsKey(uuidStr))
-			return playerIDs.get(uuidStr);
+		if(uuid != null && playerIDs.containsKey(uuid))
+			return playerIDs.get(uuid);
 
 		try {
 			Connection connection = DatabaseConnectionPool.instance.getConnection();
 			PreparedStatement preparedStatement;
 			if(uuid != null) {
 				preparedStatement = connection.prepareStatement("SELECT id, name, uuid FROM players WHERE uuid = ?");
-				preparedStatement.setString(1, uuidStr);
+				preparedStatement.setString(1, uuid.toString());
 			} else {
 				preparedStatement = connection.prepareStatement("SELECT id, name, uuid FROM players WHERE name = ?");
 				preparedStatement.setString(1, username);
@@ -202,30 +199,30 @@ public class BanResolver {
 			int ret = 0;
 			if(resultSet.next()) {
 				ret = resultSet.getInt("id");
-				uuidStr = resultSet.getString("uuid");
+				uuid = UUID.fromString(resultSet.getString("uuid"));
 				if(!resultSet.getString("name").equals(username)) {
 					username = resultSet.getString("name");
 					preparedStatement.close();
 					preparedStatement = connection.prepareStatement("UPDATE players SET name = ? WHERE uuid = ?");
 					preparedStatement.setString(1, username);
-					preparedStatement.setString(2, uuidStr);
+					preparedStatement.setString(2, uuid.toString());
 					preparedStatement.execute();
 				}
-				playerIDs.put(uuidStr, ret);
-				playerUUIDs.put(ret, new BanPlayer(uuidStr, username));
+				playerIDs.put(uuid, ret);
+				playerUUIDs.put(ret, new BanPlayer(uuid, username));
 			} else if(create) {
 				if(uuid == null)
 					throw new RuntimeException("Cannot create player without UUID");
 				preparedStatement.close();
 				preparedStatement = connection.prepareStatement("INSERT INTO players (name, uuid) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
 				preparedStatement.setString(1, username);
-				preparedStatement.setString(2, uuidStr);
+				preparedStatement.setString(2, uuid.toString());
 				ret = preparedStatement.executeUpdate();
 				resultSet = preparedStatement.getGeneratedKeys();
 				if(resultSet.next()) {
 					ret = resultSet.getInt(1);
-					playerIDs.put(uuidStr, ret);
-					playerUUIDs.put(ret, new BanPlayer(uuidStr, username));
+					playerIDs.put(uuid, ret);
+					playerUUIDs.put(ret, new BanPlayer(uuid, username));
 				}
 			}
 			preparedStatement.close();
