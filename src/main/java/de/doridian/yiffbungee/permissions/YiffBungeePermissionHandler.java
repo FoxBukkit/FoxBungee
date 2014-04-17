@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.UUID;
 
 public class YiffBungeePermissionHandler {
 	public static final YiffBungeePermissionHandler instance = new YiffBungeePermissionHandler();
@@ -128,11 +129,10 @@ public class YiffBungeePermissionHandler {
 	}
 
 	public boolean has(ProxiedPlayer player, String permission) {
-		return has("world", player.getName(), permission);
+		return has("world", player.getUniqueId(), permission);
 	}
 
-	public boolean has(String worldName, String playerName, String permission) {
-		playerName = playerName.toLowerCase();
+	public boolean has(String worldName, UUID playerName, String permission) {
 		permission = permission.toLowerCase();
 
 		GroupWorld currentGroupWorld = new GroupWorld(getGroup(playerName), worldName);
@@ -168,29 +168,25 @@ public class YiffBungeePermissionHandler {
 		return false;
 	}
 
-	public boolean has(String playerName, String permission) {
+	public boolean has(UUID playerName, String permission) {
 		return has(defaultWorld, playerName, permission);
 	}
 
-	public String getGroup(String name) {
-		name = name.toLowerCase();
-		if (name.equals("tomylobo"))
-			return "doridian";
-
-		return playerGroups.containsKey(name) ? playerGroups.get(name) : "guest";
+	public String getGroup(UUID name) {
+		return playerGroups.containsKey(name.toString()) ? playerGroups.get(name.toString()) : "guest";
 	}
 
-	public void setGroup(String name, String group) {
+	public void setGroup(UUID name, String group) {
 		group = group.toLowerCase();
-		playerGroups.put(name.toLowerCase(), group);
+		playerGroups.put(name.toString(), group);
 		save();
 	}
 
-	public boolean inGroup(String world, String name, String group) {
+	public boolean inGroup(String world, UUID name, String group) {
 		return getGroup(name).equalsIgnoreCase(group);
 	}
 
-	public boolean inGroup(String name, String group) {
+	public boolean inGroup(UUID name, String group) {
 		return inGroup(defaultWorld, name, group);
 	}
 }

@@ -6,19 +6,20 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Hashtable;
+import java.util.UUID;
 
 public class PermHelper {
 	public String getPlayerRank(ProxiedPlayer ply) {
-		return getPlayerRank(ply.getName());
+		return getPlayerRank(ply.getUniqueId());
 	}
-	public String getPlayerRank(String name) {
+	public String getPlayerRank(UUID name) {
 		final String rank = YiffBungeePermissionHandler.instance.getGroup(name);
 		if (rank == null)
 			return "guest";
 
 		return rank;
 	}
-	public void setPlayerRank(String name, String rankname) {
+	public void setPlayerRank(UUID name, String rankname) {
 		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
 		YiffBungeePermissionHandler.instance.setGroup(name, rankname);
 
@@ -31,13 +32,10 @@ public class PermHelper {
 	//Permission levels
 	public Hashtable<String,Integer> ranklevels = new Hashtable<String,Integer>();
 	public int getPlayerLevel(ProxiedPlayer ply) {
-		return getPlayerLevel(ply.getName());
+		return getPlayerLevel(ply.getUniqueId());
 	}
 
-	public int getPlayerLevel(String name) {
-		if(name.equals("[CONSOLE]"))
-			return 9999;
-
+	public int getPlayerLevel(UUID name) {
 		return getRankLevel(getPlayerRank(name));
 	}
 

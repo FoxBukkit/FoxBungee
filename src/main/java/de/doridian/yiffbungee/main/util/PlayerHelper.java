@@ -173,20 +173,20 @@ public class PlayerHelper {
 
 	//Ranks
 	public static String getPlayerRank(ProxiedPlayer ply) {
-		return getPlayerRank(ply.getName());
+		return getPlayerRank(ply.getUniqueId());
 	}
-	public static String getPlayerRank(String name) {
-		final String rank = YiffBungeePermissionHandler.instance.getGroup(name);
+	public static String getPlayerRank(UUID uuid) {
+		final String rank = YiffBungeePermissionHandler.instance.getGroup(uuid);
 		if (rank == null)
 			return "guest";
 
 		return rank;
 	}
-	public void setPlayerRank(String name, String rankname) {
-		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
-		YiffBungeePermissionHandler.instance.setGroup(name, rankname);
+	public void setPlayerRank(UUID uuid, String rankname) {
+		if(getPlayerRank(uuid).equalsIgnoreCase(rankname)) return;
+		YiffBungeePermissionHandler.instance.setGroup(uuid, rankname);
 
-		ProxiedPlayer ply = YiffBungee.instance.getProxy().getPlayer(name);
+		ProxiedPlayer ply = YiffBungee.instance.getProxy().getPlayer(uuid);
 		if (ply == null) return;
 
 		setPlayerListName(ply);
@@ -205,14 +205,11 @@ public class PlayerHelper {
 	public static int getPlayerLevel(CommandSender ply) {
 		if(!(ply instanceof ProxiedPlayer))
 			return 9999;
-		return getPlayerLevel(ply.getName());
+		return getPlayerLevel(((ProxiedPlayer) ply).getUniqueId());
 	}
 
-	public static int getPlayerLevel(String name) {
-		if(name.equals("[CONSOLE]"))
-			return 9999;
-
-		return YiffBungee.instance.playerHelper.getRankLevel(getPlayerRank(name));
+	public static int getPlayerLevel(UUID uuid) {
+		return YiffBungee.instance.playerHelper.getRankLevel(getPlayerRank(uuid));
 	}
 
 	public int getRankLevel(String rankname) {
@@ -232,15 +229,14 @@ public class PlayerHelper {
 	private final Map<String,String> playerTags = RedisManager.createKeptMap("playerTags");
 	private final Map<String,String> playerRankTags = RedisManager.createKeptMap("playerRankTags");
 
-	public String getPlayerTag(CommandSender commandSender) {
-		return getPlayerTag(commandSender.getName());
+	public String getPlayerTag(ProxiedPlayer commandSender) {
+		return getPlayerTag(commandSender.getUniqueId());
 	}
 
-	public String getPlayerRankTag(String name) {
-		name = name.toLowerCase();
-		final String rank = getPlayerRank(name).toLowerCase();
-		if (playerRankTags.containsKey(name))
-			return playerRankTags.get(name);
+	public String getPlayerRankTag(UUID uuid) {
+		final String rank = getPlayerRank(uuid).toLowerCase();
+		if (playerRankTags.containsKey(uuid.toString()))
+			return playerRankTags.get(uuid.toString());
 
 		if (rankTags.containsKey(rank))
 			return rankTags.get(rank);
@@ -248,78 +244,55 @@ public class PlayerHelper {
 		return "\u00a77";
 	}
 
-	public String getPlayerTag(String name) {
-		name = name.toLowerCase();
-		final String rankTag = getPlayerRankTag(name);
+	public String getPlayerTag(UUID uuid) {
+		final String rankTag = getPlayerRankTag(uuid);
 
-		if (playerTags.containsKey(name))
-			return playerTags.get(name) + " " + rankTag;
+		if (playerTags.containsKey(uuid.toString()))
+			return playerTags.get(uuid.toString()) + " " + rankTag;
 
 		return rankTag;
 	}
-	public void setPlayerTag(String name, String tag, boolean rankTag) {
-		name = name.toLowerCase();
+	public void setPlayerTag(UUID uuid, String tag, boolean rankTag) {
 		final Map<String, String> tags = rankTag ? playerRankTags : playerTags;
 		if (tag == null)
-			tags.remove(name);
+			tags.remove(uuid.toString());
 		else
-			tags.put(name, tag);
+			tags.put(uuid.toString(), tag);
 	}
 
 	private Map<String,String> playernicks = RedisManager.createKeptMap("playernicks");
 
-	private String getPlayerNick(String name) {
-		name = name.toLowerCase();
-		if(playernicks.containsKey(name))
-			return playernicks.get(name);
+	private String getPlayerNick(UUID uuid) {
+		if(playernicks.containsKey(uuid.toString()))
+			return playernicks.get(uuid.toString());
 		else
 			return null;
 	}
 
 	public void setPlayerDisplayName(ProxiedPlayer player) {
-		String nick = getPlayerNick(player.getName());
+		String nick = getPlayerNick(player.getUniqueId());
 		if (nick == null)
 			nick = player.getName();
 		player.setDisplayName(nick);
 	}
 
-	public void setPlayerNick(String name, String tag) {
-		name = name.toLowerCase();
+	public void setPlayerNick(UUID uuid, String tag) {
 		if (tag == null)
-		{
-			playernicks.remove(name);
-		}
+			playernicks.remove(uuid.toString());
 		else
-			playernicks.put(name, tag);
+			playernicks.put(uuid.toString(), tag);
 	}
 
-	public String formatPlayerFull(String playerName) {
-		String nick = getPlayerNick(playerName);
+	public String formatPlayerFull(String playerName, UUID uuid) {
+		String nick = getPlayerNick(uuid);
 		if (nick == null)
 			nick = playerName;
 
-		return getPlayerTag(playerName) + nick;
-	}
-
-	public String getPlayerNameByIP(String ip) {
-		for (ProxiedPlayer onlinePlayer : plugin.getProxy().getPlayers()) {
-			final String address = onlinePlayer.getAddress().getAddress().getHostAddress();
-			if (!address.equals(ip))
-				continue;
-
-			return onlinePlayer.getName();
-		}
-
-		/*String offlinePlayerName = plugin.playerListener.offlinePlayers.get(ip);
-		if (offlinePlayerName != null)
-			return "\u00a77"+offlinePlayerName+"\u00a7f";*/
-
-		return ip;
+		return getPlayerTag(uuid) + nick;
 	}
 
 	public String formatPlayer(ProxiedPlayer player) {
-		final String playerName = player.getName();
-		return getPlayerRankTag(playerName) + playerName;
+		return getPlayerRankTag(player.getUniqueId()) + player.getName();
 	}
 
 	private static final Set<String> guestRanks = new HashSet<>(Arrays.asList("guest", "pohr"));
@@ -330,27 +303,4 @@ public class PlayerHelper {
 	public static boolean isGuestRank(final String rank) {
 		return guestRanks.contains(rank);
 	}
-
-    public static final HashMap<String, String> playerHosts = new HashMap<>();
-    public static final HashMap<String, String> playerIPs = new HashMap<>();
-
-    public static String getPlayerIP(CommandSender player) {
-        return getPlayerIP(player.getName());
-    }
-
-    public static String getPlayerIP(String player) {
-        synchronized(playerIPs) {
-            return playerIPs.get(player.toLowerCase());
-        }
-    }
-
-    public static String getPlayerHost(CommandSender player) {
-        return getPlayerHost(player.getName());
-    }
-
-    public static String getPlayerHost(String player) {
-        synchronized(playerIPs) {
-            return playerHosts.get(player.toLowerCase());
-        }
-    }
 }
