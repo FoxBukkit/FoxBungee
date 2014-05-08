@@ -8,7 +8,7 @@ public class Configuration {
 	static {
 		configValues.clear();
 		try {
-			BufferedReader stream = new BufferedReader(new ConfigFileReader("config.txt"));
+			BufferedReader stream = new BufferedReader(new ConfigFileReader("plugins/YiffBungee/config.txt"));
 			String line; int lpos;
 			while((line = stream.readLine()) != null) {
 				lpos = line.lastIndexOf('=');
