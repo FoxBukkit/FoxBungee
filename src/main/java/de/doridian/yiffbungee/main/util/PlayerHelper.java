@@ -201,7 +201,7 @@ public class PlayerHelper {
 	}
 
 	//Permission levels
-	public Map<String,String> ranklevels = RedisManager.createKeptMap("ranklevels");
+	public Map<String,String> ranklevels = RedisManager.createCachedRedisMap("ranklevels");
 	public static int getPlayerLevel(CommandSender ply) {
 		if(!(ply instanceof ProxiedPlayer))
 			return 9999;
@@ -225,9 +225,9 @@ public class PlayerHelper {
 	}
 
 	//Tags
-	private final Map<String,String> rankTags = RedisManager.createKeptMap("ranktags");
-	private final Map<String,String> playerTags = RedisManager.createKeptMap("playerTags");
-	private final Map<String,String> playerRankTags = RedisManager.createKeptMap("playerRankTags");
+	private final Map<String,String> rankTags = RedisManager.createCachedRedisMap("ranktags");
+	private final Map<String,String> playerTags = RedisManager.createCachedRedisMap("playerTags");
+	private final Map<String,String> playerRankTags = RedisManager.createCachedRedisMap("playerRankTags");
 
 	public String getPlayerTag(ProxiedPlayer commandSender) {
 		return getPlayerTag(commandSender.getUniqueId());
@@ -260,7 +260,7 @@ public class PlayerHelper {
 			tags.put(uuid.toString(), tag);
 	}
 
-	private Map<String,String> playernicks = RedisManager.createKeptMap("playernicks");
+	private Map<String,String> playernicks = RedisManager.createCachedRedisMap("playernicks");
 
 	private String getPlayerNick(UUID uuid) {
 		if(playernicks.containsKey(uuid.toString()))

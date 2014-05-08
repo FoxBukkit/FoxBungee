@@ -1,7 +1,6 @@
 package de.doridian.yiffbungee.permissions;
 
 import de.doridian.yiffbungee.main.YiffBungee;
-import de.doridian.yiffbungee.main.util.CacheMap;
 import de.doridian.yiffbungee.main.util.RedisManager;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -42,8 +41,7 @@ public class YiffBungeePermissionHandler {
 	}
 
 	private boolean loaded = false;
-	private final Map<String,String> playerGroups = RedisManager.createKeptMap("playergroups");
-	private final CacheMap<UUID,String> playerGroupCache = new CacheMap<>(10000L);
+	private final Map<String,String> playerGroups = RedisManager.createCachedRedisMap("playergroups");
 	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<GroupWorld,HashSet<String>>();
 	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<GroupWorld,HashSet<String>>();
 	
@@ -175,19 +173,12 @@ public class YiffBungeePermissionHandler {
 	}
 
 	public String getGroup(UUID uuid) {
-		String group = playerGroupCache.get(uuid);
-		if(group == null)
-			group = playerGroups.get(uuid.toString());
-		if(group == null)
-			group = "guest";
-		playerGroupCache.put(uuid, group);
-		return group;
+		return playerGroups.get(uuid.toString());
 	}
 
 	public void setGroup(UUID uuid, String group) {
 		group = group.toLowerCase();
 		playerGroups.put(uuid.toString(), group);
-		playerGroupCache.put(uuid, group);
 		save();
 	}
 
