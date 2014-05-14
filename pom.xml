@@ -128,8 +128,8 @@
 			<url>http://repo.doridian.de/</url>
 		</repository>
 		<repository>
-			<id>md5-repo</id>
-			<url>http://repo.typesafe.com/typesafe/repo/</url>
+			<id>oss-repo</id>
+			<url>https://oss.sonatype.org/content/groups/public/</url>
 		</repository>
         <repository>
             <id>bukkit-repo</id>
