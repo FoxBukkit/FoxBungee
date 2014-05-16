@@ -8,7 +8,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -16,34 +16,8 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
-				<executions>
-					<execution>
-						<id>maps-file</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}</directory>
-									<filtering>true</filtering>
-									<includes>
-										<include>maps.yml</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.0</version>
+				<version>2.3</version>
 				<executions>
 					<execution>
 						<configuration>
@@ -62,12 +36,6 @@
 									</includes>
 								</filter>
 							</filters>
-							<artifactSet>
-								<excludes>
-									<exclude>net.md-5:bungeecord-api</exclude>
-									<exclude>net.md-5:bungeecord-event</exclude>
-								</excludes>
-							</artifactSet>
 						</configuration>
 						<phase>package</phase>
 						<goals>
@@ -99,7 +67,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>2.1.0</version>
+            <version>2.4.2</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -136,11 +104,4 @@
             <url>http://repo.bukkit.org/content/groups/public</url>
         </repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>zt-repo</id>
-			<name>Zero turnaround repo</name>
-			<url>dav:http://repos.zeroturnaround.com/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
 </project>
