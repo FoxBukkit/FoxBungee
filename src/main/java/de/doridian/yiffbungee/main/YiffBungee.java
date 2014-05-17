@@ -19,7 +19,7 @@ public class YiffBungee extends Plugin {
 	public void onEnable() {
 		instance = this;
 
-        new File("plugins/YiffBungee").mkdirs();
+        getDataFolder().mkdirs();
 
 		RedisManager.initialize();
 

@@ -61,7 +61,7 @@ public class YiffBungeePermissionHandler {
 		groupPermissions.clear();
 		groupProhibitions.clear();
 
-		final File permissionsDirectory = new File(YiffBungee.instance.getDataFolder() + "/permissions");
+		final File permissionsDirectory = new File(YiffBungee.instance.getDataFolder(), "permissions");
 		permissionsDirectory.mkdirs();
 		File[] files = permissionsDirectory.listFiles();
 
@@ -95,8 +95,8 @@ public class YiffBungeePermissionHandler {
 								groupProhibitions.put(currentGroupWorld, currentProhibitions);
 							}
 							int i = line.indexOf(' ');
-							currentPermissions = new HashSet<String>();
-							currentProhibitions = new HashSet<String>();
+							currentPermissions = new HashSet<>();
+							currentProhibitions = new HashSet<>();
 							if (i > 0) {
 								currentGroupWorld = new GroupWorld(line.substring(0, i).trim(), currentWorld);
 								GroupWorld tmp = new GroupWorld(line.substring(i + 1).trim(), currentWorld);
