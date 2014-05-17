@@ -4,6 +4,7 @@ import de.doridian.yiffbungee.main.util.PlayerHelper;
 import de.doridian.yiffbungee.main.util.RedisManager;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,9 @@ public class YiffBungee extends Plugin {
 	@Override
 	public void onEnable() {
 		instance = this;
+
+        new File("plugins/YiffBungee").mkdirs();
+
 		RedisManager.initialize();
 
 		playerHelper = new PlayerHelper(this);

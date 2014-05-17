@@ -5,6 +5,6 @@ import java.io.FileReader;
 
 public class ConfigFileReader extends FileReader {
 	public ConfigFileReader(String file) throws FileNotFoundException {
-		super("./" + file);
+		super("plugins/YiffBungee/" + file);
 	}
 }
