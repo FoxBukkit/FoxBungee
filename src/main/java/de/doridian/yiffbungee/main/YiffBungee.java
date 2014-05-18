@@ -1,10 +1,10 @@
 package de.doridian.yiffbungee.main;
 
+import de.doridian.dependencies.config.Configuration;
+import de.doridian.dependencies.redis.RedisManager;
 import de.doridian.yiffbungee.main.util.PlayerHelper;
-import de.doridian.yiffbungee.main.util.RedisManager;
 import net.md_5.bungee.api.plugin.Plugin;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +15,17 @@ public class YiffBungee extends Plugin {
 
 	private List<YiffBungeeSubPlugin> subPlugins;
 
+    public Configuration configuration;
+
 	@Override
 	public void onEnable() {
 		instance = this;
 
         getDataFolder().mkdirs();
 
-		RedisManager.initialize();
+        configuration = new Configuration(getDataFolder());
+
+		RedisManager.initialize(configuration);
 
 		playerHelper = new PlayerHelper(this);
 

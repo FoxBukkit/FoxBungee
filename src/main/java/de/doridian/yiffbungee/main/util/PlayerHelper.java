@@ -1,5 +1,6 @@
 package de.doridian.yiffbungee.main.util;
 
+import de.doridian.dependencies.redis.RedisManager;
 import de.doridian.yiffbungee.main.YiffBungee;
 import de.doridian.yiffbungee.permissions.YiffBungeePermissionHandler;
 import net.md_5.bungee.api.CommandSender;

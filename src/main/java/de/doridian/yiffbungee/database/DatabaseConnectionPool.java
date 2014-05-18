@@ -1,6 +1,6 @@
 package de.doridian.yiffbungee.database;
 
-import de.doridian.yiffbungee.config.Configuration;
+import de.doridian.yiffbungee.main.YiffBungee;
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
@@ -35,7 +35,7 @@ public class DatabaseConnectionPool {
 		connectionPool.setTestOnReturn(true);
 		connectionPool.setTestWhileIdle(true);
 
-		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(Configuration.getValue("database-uri", "jdbc:mysql://localhost:3306/yiffbukkit_database"), Configuration.getValue("database-user", "root"), Configuration.getValue("database-password", "password"));
+		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(YiffBungee.instance.configuration.getValue("database-uri", "jdbc:mysql://localhost:3306/yiffbukkit_database"), YiffBungee.instance.configuration.getValue("database-user", "root"), YiffBungee.instance.configuration.getValue("database-password", "password"));
 		PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(
 				connectionFactory,
 				connectionPool,

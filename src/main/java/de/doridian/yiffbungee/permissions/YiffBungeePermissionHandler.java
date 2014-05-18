@@ -1,7 +1,7 @@
 package de.doridian.yiffbungee.permissions;
 
+import de.doridian.dependencies.redis.RedisManager;
 import de.doridian.yiffbungee.main.YiffBungee;
-import de.doridian.yiffbungee.main.util.RedisManager;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
