@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 
 public class PlayerHelper {
 	private YiffBungee plugin;
-	public Map<String, String> conversations = new HashMap<>();
 
 	public PlayerHelper(YiffBungee plug) {
 		plugin = plug;
@@ -31,7 +30,14 @@ public class PlayerHelper {
 		return ret;
 	}
 
-	private static final Pattern quotePattern = Pattern.compile("^\"(.*)\"$");
+    public Map<String,String> playerNameToUUID = RedisManager.createCachedRedisMap("playerNameToUUID");
+    public Map<String,String> playerUUIDToName = RedisManager.createCachedRedisMap("playerUUIDToName");
+    public void refreshUUID(ProxiedPlayer player) {
+        playerUUIDToName.put(player.getUniqueId().toString(), player.getName());
+        playerNameToUUID.put(player.getName().toLowerCase(), player.getUniqueId().toString());
+    }
+
+    private static final Pattern quotePattern = Pattern.compile("^\"(.*)\"$");
 	public ProxiedPlayer matchPlayerSingle(String subString, boolean implicitlyLiteral) throws PlayerNotFoundException, MultiplePlayersFoundException {
 		if(implicitlyLiteral)
 			return literalMatch(subString);

@@ -8,6 +8,7 @@ import net.md_5.bungee.event.EventHandler;
 public class YiffBungeeMainListener extends YiffBungeeListener {
 	@EventHandler
 	public void onPlayerJoin(ServerConnectEvent event) {
+        YiffBungee.instance.playerHelper.refreshUUID(event.getPlayer());
 		YiffBungee.instance.playerHelper.setPlayerDisplayName(event.getPlayer());
 		YiffBungee.instance.playerHelper.setPlayerListName(event.getPlayer());
 	}
