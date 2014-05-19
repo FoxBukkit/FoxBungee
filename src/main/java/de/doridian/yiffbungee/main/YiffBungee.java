@@ -17,6 +17,8 @@ public class YiffBungee extends Plugin {
 
     public Configuration configuration;
 
+    public RedisManager redisManager;
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -25,7 +27,7 @@ public class YiffBungee extends Plugin {
 
         configuration = new Configuration(getDataFolder());
 
-		RedisManager.initialize(configuration);
+        redisManager = new RedisManager(configuration);
 
 		playerHelper = new PlayerHelper(this);
 

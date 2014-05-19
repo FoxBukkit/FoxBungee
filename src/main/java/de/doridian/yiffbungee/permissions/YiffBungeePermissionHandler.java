@@ -41,7 +41,7 @@ public class YiffBungeePermissionHandler {
 	}
 
 	private boolean loaded = false;
-	private final Map<String,String> playerGroups = RedisManager.createCachedRedisMap("playergroups");
+	private final Map<String,String> playerGroups = YiffBungee.instance.redisManager.createCachedRedisMap("playergroups");
 	private final HashMap<GroupWorld,HashSet<String>> groupPermissions = new HashMap<GroupWorld,HashSet<String>>();
 	private final HashMap<GroupWorld,HashSet<String>> groupProhibitions = new HashMap<GroupWorld,HashSet<String>>();
 	

@@ -30,8 +30,8 @@ public class PlayerHelper {
 		return ret;
 	}
 
-    public Map<String,String> playerNameToUUID = RedisManager.createCachedRedisMap("playerNameToUUID");
-    public Map<String,String> playerUUIDToName = RedisManager.createCachedRedisMap("playerUUIDToName");
+    public Map<String,String> playerNameToUUID = YiffBungee.instance.redisManager.createCachedRedisMap("playerNameToUUID");
+    public Map<String,String> playerUUIDToName = YiffBungee.instance.redisManager.createCachedRedisMap("playerUUIDToName");
     public void refreshUUID(ProxiedPlayer player) {
         playerUUIDToName.put(player.getUniqueId().toString(), player.getName());
         playerNameToUUID.put(player.getName().toLowerCase(), player.getUniqueId().toString());
@@ -208,7 +208,7 @@ public class PlayerHelper {
 	}
 
 	//Permission levels
-	public Map<String,String> ranklevels = RedisManager.createCachedRedisMap("ranklevels");
+	public Map<String,String> ranklevels = YiffBungee.instance.redisManager.createCachedRedisMap("ranklevels");
 	public static int getPlayerLevel(CommandSender ply) {
 		if(!(ply instanceof ProxiedPlayer))
 			return 9999;
@@ -232,9 +232,9 @@ public class PlayerHelper {
 	}
 
 	//Tags
-	private final Map<String,String> rankTags = RedisManager.createCachedRedisMap("ranktags");
-	private final Map<String,String> playerTags = RedisManager.createCachedRedisMap("playerTags");
-	private final Map<String,String> playerRankTags = RedisManager.createCachedRedisMap("playerRankTags");
+	private final Map<String,String> rankTags = YiffBungee.instance.redisManager.createCachedRedisMap("ranktags");
+	private final Map<String,String> playerTags = YiffBungee.instance.redisManager.createCachedRedisMap("playerTags");
+	private final Map<String,String> playerRankTags = YiffBungee.instance.redisManager.createCachedRedisMap("playerRankTags");
 
 	public String getPlayerTag(ProxiedPlayer commandSender) {
 		return getPlayerTag(commandSender.getUniqueId());
@@ -267,7 +267,7 @@ public class PlayerHelper {
 			tags.put(uuid.toString(), tag);
 	}
 
-	private Map<String,String> playernicks = RedisManager.createCachedRedisMap("playernicks");
+	private Map<String,String> playernicks = YiffBungee.instance.redisManager.createCachedRedisMap("playernicks");
 
 	private String getPlayerNick(UUID uuid) {
 		if(playernicks.containsKey(uuid.toString()))
