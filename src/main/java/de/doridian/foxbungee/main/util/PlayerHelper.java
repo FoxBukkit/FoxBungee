@@ -105,7 +105,7 @@ public class PlayerHelper {
 		sendServerMessage(msg,'5');
 	}
 	public static void sendServerMessage(String msg, char colorCode) {
-		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
+		msg = "\u00a7"+colorCode+"[FB]\u00a7f " + msg;
 		FoxBungee.instance.getProxy().broadcast(msg);
 	}
 
@@ -113,7 +113,7 @@ public class PlayerHelper {
 		sendServerMessage(msg, minLevel, '5');
 	}
 	public static void sendServerMessage(String msg, int minLevel, char colorCode) {
-		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
+		msg = "\u00a7"+colorCode+"[FB]\u00a7f " + msg;
 
 		Collection<ProxiedPlayer> proxiedPlayers = FoxBungee.instance.getProxy().getPlayers();
 
@@ -126,7 +126,7 @@ public class PlayerHelper {
 
 	
 	/**
-	 * Broadcasts a message to all ProxiedPlayers with the given permission, prefixed with [YB] in purple.
+	 * Broadcasts a message to all ProxiedPlayers with the given permission, prefixed with [FB] in purple.
 	 *
 	 * @param message The message to send
 	 * @param permission The permission required to receive the message
@@ -135,14 +135,14 @@ public class PlayerHelper {
 		sendServerMessage(message, permission, '5');
 	}
 	/**
-	 * Broadcasts a message to all ProxiedPlayers with the given permission, prefixed with [YB] in the given color.
+	 * Broadcasts a message to all ProxiedPlayers with the given permission, prefixed with [FB] in the given color.
 	 *
 	 * @param message The message to send
 	 * @param permission The permission required to receive the message
 	 * @param colorCode The color code to prefix
 	 */
 	public static void sendServerMessage(String message, String permission, char colorCode) {
-		broadcastMessage("\u00a7"+colorCode+"[YB]\u00a7f " + message, permission);
+		broadcastMessage("\u00a7"+colorCode+"[FB]\u00a7f " + message, permission);
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class PlayerHelper {
 		sendServerMessage(msg, '5', exceptPlayers);
 	}
 	public static void sendServerMessage(String msg, char colorCode, CommandSender... exceptPlayers) {
-		msg = "\u00a7"+colorCode+"[YB]\u00a7f " + msg;
+		msg = "\u00a7"+colorCode+"[FB]\u00a7f " + msg;
 
 		Set<ProxiedPlayer> exceptPlayersSet = new HashSet<>();
 		for (CommandSender exceptPlayer : exceptPlayers) {
@@ -187,7 +187,7 @@ public class PlayerHelper {
 	}
 
 	public static void sendDirectedMessage(CommandSender commandSender, String msg, char colorCode) {
-		commandSender.sendMessage("\u00a7"+colorCode+"[YB]\u00a7f " + msg);
+		commandSender.sendMessage("\u00a7"+colorCode+"[FB]\u00a7f " + msg);
 	}
 	public static void sendDirectedMessage(CommandSender commandSender, String msg) {
 		sendDirectedMessage(commandSender, msg, '5');

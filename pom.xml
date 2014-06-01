@@ -39,7 +39,7 @@
 				<executions>
 					<execution>
 						<configuration>
-							<minimizeJar>false</minimizeJar> <!-- This would kill the YBListeners -->
+							<minimizeJar>false</minimizeJar>
 							<filters>
 								<filter>
 									<artifact>*:*</artifact>

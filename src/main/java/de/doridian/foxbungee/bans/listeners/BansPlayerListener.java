@@ -40,7 +40,7 @@ public class BansPlayerListener extends FoxBungeeListener {
 			}
 		}
 		if(ban != null) {
-			event.setCancelReason("[YB] Banned: " + ban.getReason());
+			event.setCancelReason("[FB] Banned: " + ban.getReason());
 			event.setCancelled(true);
 		}
 	}

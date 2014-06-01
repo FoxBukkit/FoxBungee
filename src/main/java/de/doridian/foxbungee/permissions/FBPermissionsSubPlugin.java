@@ -18,7 +18,7 @@ package de.doridian.foxbungee.permissions;
 
 import de.doridian.foxbungee.main.FoxBungeeSubPlugin;
 
-public class YBPermissionsSubPlugin extends FoxBungeeSubPlugin {
+public class FBPermissionsSubPlugin extends FoxBungeeSubPlugin {
 	@Override
 	protected void onLoad() {
 		FoxBungeePermissionHandler.instance.load();

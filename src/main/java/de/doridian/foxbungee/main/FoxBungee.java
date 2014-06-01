@@ -66,10 +66,10 @@ public class FoxBungee extends Plugin {
 
 	private void searchSubPlugin(String className) {
 		try {
-			Class<?> ybSubPluginClazz = Class.forName(className);
-			if(!FoxBungeeSubPlugin.class.isAssignableFrom(ybSubPluginClazz))
+			Class<?> fbSubPluginClazz = Class.forName(className);
+			if(!FoxBungeeSubPlugin.class.isAssignableFrom(fbSubPluginClazz))
 				throw new Exception("Not derived from FoxBungeeSubPlugin");
-			FoxBungeeSubPlugin foxBungeeSubPlugin = (FoxBungeeSubPlugin)ybSubPluginClazz.getConstructor().newInstance();
+			FoxBungeeSubPlugin foxBungeeSubPlugin = (FoxBungeeSubPlugin)fbSubPluginClazz.getConstructor().newInstance();
 			foxBungeeSubPlugin.onLoad();
 			foxBungeeSubPlugin.loadListenersAndCommands();
 		} catch (Exception e) {
