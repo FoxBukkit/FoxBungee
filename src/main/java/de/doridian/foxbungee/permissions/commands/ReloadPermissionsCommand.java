@@ -22,7 +22,7 @@ import de.doridian.foxbungee.main.util.FoxBungeeCommandException;
 import de.doridian.foxbungee.permissions.FoxBungeePermissionHandler;
 import net.md_5.bungee.api.CommandSender;
 
-@ICommand.Command(names = "greloadpermissions", permission = "yiffbungee.reloadpermissions")
+@ICommand.Command(names = "greloadpermissions", permission = "foxbungee.reloadpermissions")
 public class ReloadPermissionsCommand extends ICommand {
 	public ReloadPermissionsCommand(String name, String permission, String[] aliases) {
 		super(name, permission, aliases);

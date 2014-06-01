@@ -54,11 +54,11 @@ public class FoxBungee extends Plugin {
 		searchSubPlugin("de.doridian.foxbungee.bans.FBBansSubPlugin");
 		searchSubPlugin("de.doridian.foxbungee.permissions.FBPermissionsSubPlugin");
 
-		for(FoxBungeeSubPlugin yiffBungeeSubPlugin : subPlugins) {
+		for(FoxBungeeSubPlugin foxBungeeSubPlugin : subPlugins) {
 			try {
-				yiffBungeeSubPlugin.onEnable();
+				foxBungeeSubPlugin.onEnable();
 			} catch (Exception e) {
-				System.out.println("Failed to enable sub-plugin '" + yiffBungeeSubPlugin.getClass().getName() + "'");
+				System.out.println("Failed to enable sub-plugin '" + foxBungeeSubPlugin.getClass().getName() + "'");
 				e.printStackTrace();
 			}
 		}
@@ -69,9 +69,9 @@ public class FoxBungee extends Plugin {
 			Class<?> ybSubPluginClazz = Class.forName(className);
 			if(!FoxBungeeSubPlugin.class.isAssignableFrom(ybSubPluginClazz))
 				throw new Exception("Not derived from FoxBungeeSubPlugin");
-			FoxBungeeSubPlugin yiffBungeeSubPlugin = (FoxBungeeSubPlugin)ybSubPluginClazz.getConstructor().newInstance();
-			yiffBungeeSubPlugin.onLoad();
-			yiffBungeeSubPlugin.loadListenersAndCommands();
+			FoxBungeeSubPlugin foxBungeeSubPlugin = (FoxBungeeSubPlugin)ybSubPluginClazz.getConstructor().newInstance();
+			foxBungeeSubPlugin.onLoad();
+			foxBungeeSubPlugin.loadListenersAndCommands();
 		} catch (Exception e) {
 			System.out.println("Failed to load sub-plugin '" + className + "'");
 			e.printStackTrace();

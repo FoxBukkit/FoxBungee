@@ -51,7 +51,7 @@ public class DatabaseConnectionPool {
 		connectionPool.setTestOnReturn(true);
 		connectionPool.setTestWhileIdle(true);
 
-		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(FoxBungee.instance.configuration.getValue("database-uri", "jdbc:mysql://localhost:3306/yiffbukkit_database"), FoxBungee.instance.configuration.getValue("database-user", "root"), FoxBungee.instance.configuration.getValue("database-password", "password"));
+		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(FoxBungee.instance.configuration.getValue("database-uri", "jdbc:mysql://localhost:3306/foxbukkit_database"), FoxBungee.instance.configuration.getValue("database-user", "root"), FoxBungee.instance.configuration.getValue("database-password", "password"));
 		PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(
 				connectionFactory,
 				connectionPool,

@@ -32,8 +32,8 @@ public class FoxBungeeSubPlugin {
 
 		for(Class<? extends FoxBungeeListener> clazz : Utils.getSubClasses(FoxBungeeListener.class, packageName + ".listeners")) {
 			try {
-				FoxBungeeListener yiffBungeeListener = clazz.getConstructor().newInstance();
-				pluginManager.registerListener(plugin, yiffBungeeListener);
+				FoxBungeeListener foxBungeeListener = clazz.getConstructor().newInstance();
+				pluginManager.registerListener(plugin, foxBungeeListener);
 				System.out.println("Loaded listener '" + clazz.getName() + "'");
 			} catch (Exception e) {
 				System.out.println("Failed loading listener '" + clazz.getName() + "'");

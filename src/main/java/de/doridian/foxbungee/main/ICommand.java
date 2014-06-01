@@ -33,7 +33,7 @@ public abstract class ICommand extends Command {
 		String[] names();
 		String usage() default "";
 		String help() default "";
-		String permission() default "yiffbukkit.no.one.is.allowed.except.asterisk.people\n";
+		String permission() default "foxbukkit.no.one.is.allowed.except.asterisk.people\n";
 	}
 
 	public static ICommand constructCommand(Class<? extends ICommand> cmdClass) {
