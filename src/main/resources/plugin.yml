@@ -1,4 +1,4 @@
 name: FoxBungee
-main : de.doridian.foxbungee.main.FoxBungee
+main : com.foxelbox.foxbungee.main.FoxBungee
 version: 0.0.1
 author: Doridian
