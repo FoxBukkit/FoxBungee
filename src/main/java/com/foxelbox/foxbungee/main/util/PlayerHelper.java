@@ -205,21 +205,9 @@ public class PlayerHelper {
 		return rank;
 	}
 	public void setPlayerRank(UUID uuid, String rankname) {
-		if(getPlayerRank(uuid).equalsIgnoreCase(rankname)) return;
+		if(getPlayerRank(uuid).equalsIgnoreCase(rankname))
+			return;
 		FoxBungeePermissionHandler.instance.setGroup(uuid, rankname);
-
-		ProxiedPlayer ply = FoxBungee.instance.getProxy().getPlayer(uuid);
-		if (ply == null) return;
-
-		setPlayerListName(ply);
-	}
-	
-	public void setPlayerListName(ProxiedPlayer ply) {
-		try {
-			String listName = formatPlayer(ply);
-			if(listName.length() > 16) listName = listName.substring(0, 15);
-			ply.setTabListName(listName);
-		} catch(Exception ignored) { }
 	}
 
 	//Permission levels

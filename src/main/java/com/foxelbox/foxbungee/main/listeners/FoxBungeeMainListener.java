@@ -26,6 +26,5 @@ public class FoxBungeeMainListener extends FoxBungeeListener {
 	public void onPlayerJoin(ServerConnectEvent event) {
         FoxBungee.instance.playerHelper.refreshUUID(event.getPlayer());
 		FoxBungee.instance.playerHelper.setPlayerDisplayName(event.getPlayer());
-		FoxBungee.instance.playerHelper.setPlayerListName(event.getPlayer());
 	}
 }

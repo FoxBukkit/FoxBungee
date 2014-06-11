@@ -36,13 +36,9 @@ public class PermHelper {
 		return rank;
 	}
 	public void setPlayerRank(UUID name, String rankname) {
-		if(getPlayerRank(name).equalsIgnoreCase(rankname)) return;
+		if(getPlayerRank(name).equalsIgnoreCase(rankname))
+			return;
 		FoxBungeePermissionHandler.instance.setGroup(name, rankname);
-
-		ProxiedPlayer ply = ProxyServer.getInstance().getPlayer(name);
-		if (ply == null) return;
-
-		FoxBungee.instance.playerHelper.setPlayerListName(ply);
 	}
 
 	//Permission levels
