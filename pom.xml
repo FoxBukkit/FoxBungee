@@ -95,13 +95,13 @@
 			<version>1.1.1</version>
 		</dependency>            
 		<dependency>
-			<groupId>com.foxelbox</groupId>
+			<groupId>net.md-5</groupId>
 			<artifactId>bungeecord-api</artifactId>
 			<version>1.7-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
-            <groupId>com.foxelbox</groupId>
+            <groupId>net.md-5</groupId>
             <artifactId>bungeecord-event</artifactId>
             <version>1.7-SNAPSHOT</version>
             <scope>provided</scope>
@@ -146,8 +146,8 @@
 	</dependencies>
 	<repositories>
 		<repository>
-			<id>doridian-repo</id>
-			<url>http://repo.doridian.de/</url>
+			<id>foxelbox-repo</id>
+			<url>http://repo.foxelbox.com</url>
 		</repository>
 		<repository>
 			<id>oss-repo</id>
