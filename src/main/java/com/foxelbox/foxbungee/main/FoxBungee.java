@@ -37,7 +37,7 @@ public class FoxBungee extends Plugin {
 
     public RedisManager redisManager;
 
-	public final GroupedThreadFactory groupedThreadFactory = new GroupedThreadFactory(this);
+	public GroupedThreadFactory groupedThreadFactory;
 
 	@Override
 	public void onEnable() {
@@ -45,6 +45,8 @@ public class FoxBungee extends Plugin {
 
         getDataFolder().mkdirs();
 
+		groupedThreadFactory = new GroupedThreadFactory(this);
+		
         configuration = new Configuration(getDataFolder());
 
         redisManager = new RedisManager(new IThreadCreator() {
