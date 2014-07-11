@@ -18,8 +18,10 @@ package com.foxelbox.foxbungee.main;
 
 import com.foxelbox.dependencies.config.Configuration;
 import com.foxelbox.dependencies.redis.RedisManager;
+import com.foxelbox.dependencies.threading.IThreadCreator;
 import com.foxelbox.foxbungee.main.util.PlayerHelper;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.scheduler.GroupedThreadFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ public class FoxBungee extends Plugin {
 
     public RedisManager redisManager;
 
+	public final GroupedThreadFactory groupedThreadFactory = new GroupedThreadFactory(this);
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -43,7 +47,12 @@ public class FoxBungee extends Plugin {
 
         configuration = new Configuration(getDataFolder());
 
-        redisManager = new RedisManager(configuration);
+        redisManager = new RedisManager(new IThreadCreator() {
+			@Override
+			public Thread createThread(Runnable runnable) {
+				return groupedThreadFactory.newThread(runnable);
+			}
+		}, configuration);
 
 		playerHelper = new PlayerHelper(this);
 
