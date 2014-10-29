@@ -41,7 +41,7 @@ public class PlayerHelper {
 		List<ProxiedPlayer> ret = new ArrayList<>();
 		for(ProxiedPlayer ply : plugin.getProxy().getPlayers())
 			if(ply.getName().toLowerCase().contains(subString))
-				ret .add(ply);
+				ret.add(ply);
 		return ret;
 	}
 
@@ -96,8 +96,11 @@ public class PlayerHelper {
 		return null;
 	}
 
-	public String GetFullPlayerName(ProxiedPlayer ply) {
-		return getPlayerTag(ply) + ply.getDisplayName();
+	public String GetFullPlayerName(ProxiedPlayer player) {
+        String nick = getPlayerNick(player.getUniqueId());
+        if (nick == null)
+            nick = player.getName();
+		return getPlayerTag(player) + nick;
 	}
 
 	//Messaging stuff
@@ -280,10 +283,12 @@ public class PlayerHelper {
 	}
 
 	public void setPlayerDisplayName(ProxiedPlayer player) {
-		String nick = getPlayerNick(player.getUniqueId());
+		/*String nick = getPlayerNick(player.getUniqueId());
 		if (nick == null)
 			nick = player.getName();
-		player.setDisplayName(nick);
+        try {
+            player.setDisplayName(nick);
+        } catch (Exception e) { }*/
 	}
 
 	public void setPlayerNick(UUID uuid, String tag) {
