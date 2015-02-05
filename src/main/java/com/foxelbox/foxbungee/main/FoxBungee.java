@@ -45,7 +45,7 @@ public class FoxBungee extends Plugin {
 
         getDataFolder().mkdirs();
 
-		groupedThreadFactory = new GroupedThreadFactory(this);
+		groupedThreadFactory = new GroupedThreadFactory(this, "FoxBungee-Redis");
 		
         configuration = new Configuration(getDataFolder());
 
