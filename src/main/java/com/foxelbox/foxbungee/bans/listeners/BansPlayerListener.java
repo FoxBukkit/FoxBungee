@@ -30,6 +30,8 @@ public class BansPlayerListener extends FoxBungeeListener {
 		String name = event.getConnection().getName();
 		UUID uuid = event.getConnection().getUniqueId();
 
+        BanResolver.addIPForPlayer(name, uuid, event.getConnection().getAddress().getAddress());
+
 		Ban ban = BanResolver.getBan(name, uuid);
 		if(ban == null) {
 			ban = BanResolver.getBan("[IP]" + event.getConnection().getAddress().getAddress().getHostAddress(), null);
