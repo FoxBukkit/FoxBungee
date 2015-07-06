@@ -47,7 +47,7 @@ public class BanResolver {
 
 		try {
 			Connection connection = DatabaseConnectionPool.instance.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("REPLACE INTO player_ips (player, ip, time) VALUES (?, ?, UNIX_TIMESTAMP())");
+			PreparedStatement preparedStatement = connection.prepareStatement("REPLACE INTO player_ips (player, ip, time) VALUES (?, ?, NOW())");
 			preparedStatement.setInt(1, userID);
 			preparedStatement.setBytes(2, address.getAddress());
 			preparedStatement.execute();
@@ -97,7 +97,7 @@ public class BanResolver {
 			preparedStatement.setInt(2, ban.getAdminID());
 			preparedStatement.setInt(3, ban.getUserID());
 			preparedStatement.setString(4, ban.getType());
-			preparedStatement.setInt(5, ban.getTime());
+			preparedStatement.setDate(5, ban.getTime());
 			preparedStatement.execute();
 			preparedStatement.close();
 			connection.close();
@@ -148,7 +148,7 @@ public class BanResolver {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			Ban ret = null;
 			if(resultSet.next()) {
-				ret = new Ban(resultSet.getString("reason"), resultSet.getInt("admin"), resultSet.getInt("player"), resultSet.getString("type"), resultSet.getInt("time"));
+				ret = new Ban(resultSet.getString("reason"), resultSet.getInt("admin"), resultSet.getInt("player"), resultSet.getString("type"), resultSet.getDate("time"));
 				playerBans.put(userID, new SoftReference<>(ret));
 			}
 			preparedStatement.close();
@@ -156,7 +156,7 @@ public class BanResolver {
 			return ret;
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new Ban("Database failure", 0, 0, "invalid", 0);
+			return new Ban("Database failure", 0, 0, "invalid", null);
 		}
 	}
 

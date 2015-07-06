@@ -16,6 +16,7 @@
  */
 package com.foxelbox.foxbungee.bans;
 
+import java.sql.Date;
 import java.util.UUID;
 
 public class Ban {
@@ -23,11 +24,11 @@ public class Ban {
 	private int admin;
 	private int user;
 	private String type;
-	private int time;
+	private Date time;
 
 	protected final long retrievalTime;
 
-	protected Ban(String reason, int admin, int user, String type, int time) {
+	protected Ban(String reason, int admin, int user, String type, Date time) {
 		this.reason = reason;
 		this.admin = admin;
 		this.user = user;
@@ -89,9 +90,9 @@ public class Ban {
 		this.type = type;
 	}
 
-	public void refreshTime() { this.time = (int)(System.currentTimeMillis() / 1000); }
+	public void refreshTime() { this.time = new Date(new java.util.Date().getTime()); }
 
-	public int getTime() {
+	public Date getTime() {
 		return time;
 	}
 }
