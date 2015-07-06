@@ -17,6 +17,7 @@
 package com.foxelbox.foxbungee.bans;
 
 import com.foxelbox.foxbungee.database.DatabaseConnectionPool;
+import com.foxelbox.foxbungee.main.FoxBungee;
 
 import java.lang.ref.SoftReference;
 import java.net.InetAddress;
@@ -35,6 +36,8 @@ public class BanResolver {
 
 	private static final long BAN_MAX_AGE_MILLIS = 60 * 1000;
 
+	private static final String serverName = FoxBungee.instance.configuration.getValue("server-name", "Main");
+
 	public static Ban getBan(String username, UUID uuid) {
 		return getBan(username, uuid, true);
 	}
@@ -44,10 +47,11 @@ public class BanResolver {
 
 		try {
 			Connection connection = DatabaseConnectionPool.instance.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_logs (player, ip, time, action) VALUES (?, ?, NOW(), ?)");
+			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_logs (player, ip, time, action, server) VALUES (?, ?, NOW(), ?, ?)");
 			preparedStatement.setInt(1, userID);
 			preparedStatement.setBytes(2, address.getAddress());
 			preparedStatement.setString(3, action);
+			preparedStatement.setString(4, serverName);
 			preparedStatement.execute();
 			preparedStatement.close();
 			connection.close();
