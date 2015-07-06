@@ -17,8 +17,8 @@
 package com.foxelbox.foxbungee.permissions.commands;
 
 import com.foxelbox.foxbungee.main.ICommand;
-import com.foxelbox.foxbungee.main.util.PlayerHelper;
 import com.foxelbox.foxbungee.main.util.FoxBungeeCommandException;
+import com.foxelbox.foxbungee.main.util.PlayerHelper;
 import com.foxelbox.foxbungee.permissions.FoxBungeePermissionHandler;
 import net.md_5.bungee.api.CommandSender;
 

@@ -16,9 +16,7 @@
  */
 package com.foxelbox.foxbungee.permissions.util;
 
-import com.foxelbox.foxbungee.main.FoxBungee;
 import com.foxelbox.foxbungee.permissions.FoxBungeePermissionHandler;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Hashtable;

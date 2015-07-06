@@ -16,9 +16,9 @@
  */
 package com.foxelbox.foxbungee.main;
 
+import com.foxelbox.foxbungee.main.util.FoxBungeeCommandException;
 import com.foxelbox.foxbungee.main.util.PlayerHelper;
 import com.foxelbox.foxbungee.main.util.Utils;
-import com.foxelbox.foxbungee.main.util.FoxBungeeCommandException;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
