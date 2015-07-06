@@ -39,6 +39,23 @@ public class BanResolver {
 		return getBan(username, uuid, true);
 	}
 
+	public static void addLogForPlayer(String username, UUID uuid, InetAddress address, String action) {
+		int userID = getUserID(username, uuid, true);
+
+		try {
+			Connection connection = DatabaseConnectionPool.instance.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_logs (player, ip, time, action) VALUES (?, ?, NOW(), ?)");
+			preparedStatement.setInt(1, userID);
+			preparedStatement.setBytes(2, address.getAddress());
+			preparedStatement.setString(3, action);
+			preparedStatement.execute();
+			preparedStatement.close();
+			connection.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void addIPForPlayer(String username, UUID uuid, InetAddress address) {
 		if(address.isAnyLocalAddress() || address.isLoopbackAddress() || address.isLinkLocalAddress() || address.isSiteLocalAddress())
 			return;
