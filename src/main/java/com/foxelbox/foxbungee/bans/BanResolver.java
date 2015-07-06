@@ -42,22 +42,26 @@ public class BanResolver {
 		return getBan(username, uuid, true);
 	}
 
-	public static void addLogForPlayer(String username, UUID uuid, InetAddress address, String action) {
-		int userID = getUserID(username, uuid, true);
+	public static void addLogForPlayer(final String username, final UUID uuid, final InetAddress address, final String action) {
+		new Thread() {
+			public void run() {
+				int userID = getUserID(username, uuid, true);
 
-		try {
-			Connection connection = DatabaseConnectionPool.instance.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_logs (player, ip, time, action, server) VALUES (?, ?, NOW(), ?, ?)");
-			preparedStatement.setInt(1, userID);
-			preparedStatement.setBytes(2, address.getAddress());
-			preparedStatement.setString(3, action);
-			preparedStatement.setString(4, serverName);
-			preparedStatement.execute();
-			preparedStatement.close();
-			connection.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+				try {
+					Connection connection = DatabaseConnectionPool.instance.getConnection();
+					PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_logs (player, ip, time, action, server) VALUES (?, ?, NOW(), ?, ?)");
+					preparedStatement.setInt(1, userID);
+					preparedStatement.setBytes(2, address.getAddress());
+					preparedStatement.setString(3, action);
+					preparedStatement.setString(4, serverName);
+					preparedStatement.execute();
+					preparedStatement.close();
+					connection.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
 	}
 
 	public static void addIPForPlayer(String username, UUID uuid, InetAddress address) {
