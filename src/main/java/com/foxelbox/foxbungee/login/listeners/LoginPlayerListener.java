@@ -32,6 +32,7 @@ public class LoginPlayerListener extends FoxBungeeListener {
         final String vHost = pendingConnection.getVirtualHost().getHostName();
         final String redisKey = "foxbungee:prelogin:" + name;
         final String data = FoxBungee.instance.redisManager.get(redisKey);
+        System.out.println(redisKey + "||" + data + "||" + vHost);
         if(data != null) {
             String[] dataSplit = data.split("\\|");
             if(dataSplit[0].equalsIgnoreCase(vHost)) {
