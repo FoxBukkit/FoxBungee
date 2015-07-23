@@ -34,7 +34,8 @@ public class LoginPlayerListener extends FoxBungeeListener {
     public void onPlayerPreLogin(PreLoginEvent event) {
         final PendingConnection pendingConnection = event.getConnection();
         final String name = pendingConnection.getName();
-        final String vHost = pendingConnection.getVirtualHost().getHostName();
+
+        final String vHost = pendingConnection.getVirtualHost().getHostName().split("\\.")[0];
 
         final String redisKey = "foxbungee:prelogin:" + name;
 
