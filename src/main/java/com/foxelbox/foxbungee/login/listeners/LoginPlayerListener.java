@@ -29,16 +29,16 @@ public class LoginPlayerListener extends FoxBungeeListener {
     public void onPlayerPreLogin(LoginEvent event) {
         final PendingConnection pendingConnection = event.getConnection();
         final String name = pendingConnection.getName();
-        //final String ip = pendingConnection.getAddress().getAddress().getHostAddress();
         final String vHost = pendingConnection.getVirtualHost().getHostName();
-        final String redisKey = "foxbungee:prelogin:" + name + ":" + vHost;
-        System.out.println(redisKey);
+        final String redisKey = "foxbungee:prelogin:" + name;
         final String data = FoxBungee.instance.redisManager.get(redisKey);
         if(data != null) {
-            FoxBungee.instance.redisManager.del(redisKey);
-            UUID uuid = UUID.fromString(data);
-            pendingConnection.setOnlineMode(false);
-            pendingConnection.setUniqueId(uuid);
+            String[] dataSplit = data.split("\\|");
+            if(dataSplit[0].equalsIgnoreCase(vHost)) {
+                UUID uuid = UUID.fromString(dataSplit[1]);
+                pendingConnection.setOnlineMode(false);
+                pendingConnection.setUniqueId(uuid);
+            }
         }
     }
 }
