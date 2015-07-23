@@ -17,13 +17,14 @@
 package com.foxelbox.foxbungee.login.listeners;
 
 import com.foxelbox.foxbungee.main.FoxBungee;
+import com.foxelbox.foxbungee.main.FoxBungeeListener;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.event.EventHandler;
 
 import java.util.UUID;
 
-public class LoginPlayerListener {
+public class LoginPlayerListener extends FoxBungeeListener {
     @EventHandler
     public void onPlayerPreLogin(LoginEvent event) {
         final PendingConnection pendingConnection = event.getConnection();
