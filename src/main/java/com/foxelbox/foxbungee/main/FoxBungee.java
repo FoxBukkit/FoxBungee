@@ -64,6 +64,7 @@ public class FoxBungee extends Plugin {
 		searchSubPlugin("com.foxelbox.foxbungee.database.FBDatabaseSubPlugin");
 		searchSubPlugin("com.foxelbox.foxbungee.bans.FBBansSubPlugin");
 		searchSubPlugin("com.foxelbox.foxbungee.permissions.FBPermissionsSubPlugin");
+		searchSubPlugin("com.foxelbox.foxbungee.login.FBLoginSubPlugin");
 
 		for(FoxBungeeSubPlugin foxBungeeSubPlugin : subPlugins) {
 			try {
