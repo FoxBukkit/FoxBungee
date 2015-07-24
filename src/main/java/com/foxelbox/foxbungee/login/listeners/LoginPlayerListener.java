@@ -25,6 +25,7 @@ import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.connection.InitialHandler;
 import net.md_5.bungee.connection.LoginResult;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.protocol.packet.LoginRequest;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
@@ -33,14 +34,11 @@ public class LoginPlayerListener extends FoxBungeeListener {
     @EventHandler
     public void onPlayerPreLogin(PreLoginEvent event) {
         final PendingConnection pendingConnection = event.getConnection();
-        final String name = pendingConnection.getName();
+        String name = pendingConnection.getName();
 
         final String vHost = pendingConnection.getVirtualHost().getHostName().split("\\.")[0];
 
-        final String redisKey = "foxbungee:prelogin:" + name;
-
-        final String data = FoxBungee.instance.redisManager.get(redisKey);
-
+        String data = FoxBungee.instance.redisManager.get("foxbungee:prelogin:" + name);
         if(data != null) {
             String[] dataSplit = data.split("\\|");
             if(dataSplit[0].equalsIgnoreCase(vHost)) {
@@ -50,21 +48,56 @@ public class LoginPlayerListener extends FoxBungeeListener {
 
                 SkinFetcher.addFetcher(uuid);
             }
+            return;
+        }
+
+        data = FoxBungee.instance.redisManager.get("foxbungee:prelogin_vhost:" + vHost);
+        if(data != null) {
+            String[] dataSplit = data.split("\\|");
+
+            pendingConnection.setOnlineMode(false);
+
+            name = dataSplit[0];
+            UUID uuid = UUID.fromString(dataSplit[1]);
+
+            try {
+                LoginRequest loginRequest = (LoginRequest) LOGIN_REQUEST_FIELD.get(pendingConnection);
+                loginRequest.setData(name);
+            } catch (Exception e) {
+                e.printStackTrace();
+                event.setCancelled(true);
+                event.setCancelReason("Internal error");
+                return;
+            }
+
+            pendingConnection.setUniqueId(uuid);
+
+            SkinFetcher.addFetcher(uuid);
         }
     }
 
     private final Field LOGIN_PROFILE_FIELD;
+    private final Field LOGIN_REQUEST_FIELD;
 
     public LoginPlayerListener() {
-        Field loginProfileField = null;
+        Field tmpField;
         try {
-            loginProfileField = InitialHandler.class.getDeclaredField("loginProfile");
-            loginProfileField.setAccessible(true);
+            tmpField = InitialHandler.class.getDeclaredField("loginProfile");
+            tmpField.setAccessible(true);
         } catch (Exception e) {
             e.printStackTrace();
-            loginProfileField = null;
+            tmpField = null;
         }
-        LOGIN_PROFILE_FIELD = loginProfileField;
+        LOGIN_PROFILE_FIELD = tmpField;
+
+        try {
+            tmpField = InitialHandler.class.getDeclaredField("loginRequest");
+            tmpField.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            tmpField = null;
+        }
+        LOGIN_REQUEST_FIELD = tmpField;
     }
 
     @EventHandler
