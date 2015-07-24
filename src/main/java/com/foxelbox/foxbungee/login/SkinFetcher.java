@@ -33,6 +33,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class SkinFetcher {
     public static final String TEXTURES_NAME = "textures";
 
+    public static final long CACHE_EXPIRY = 60L * 60L * 1000L;
+
     private static final Queue<UUID> texturesToFetch;
     public static void addFetcher(UUID uuid) {
         synchronized (texturesToFetch) {
@@ -78,7 +80,7 @@ public class SkinFetcher {
     public static LoginResult.Property getTextures(UUID uuid) {
         synchronized (TEXTURES_FOLDER) {
             File skinFile = new File(TEXTURES_FOLDER, uuid.toString() + ".json");
-            if (skinFile.exists()) {
+            if (skinFile.exists() && (System.currentTimeMillis() - skinFile.lastModified()) <= CACHE_EXPIRY) {
                 try {
                     FileReader fr = new FileReader(skinFile);
                     LoginResult.Property ret = fromJSON((JSONObject)new JSONParser().parse(fr));
@@ -116,7 +118,7 @@ public class SkinFetcher {
         if(property.getSignature() == null) {
             return;
         }
-        
+
         synchronized (TEXTURES_FOLDER) {
             File skinFile = new File(TEXTURES_FOLDER, uuid.toString() + ".json");
             JSONObject texturesObject = new JSONObject();
@@ -127,6 +129,7 @@ public class SkinFetcher {
                 FileWriter fw = new FileWriter(skinFile);
                 texturesObject.writeJSONString(fw);
                 fw.close();
+                skinFile.setLastModified(System.currentTimeMillis());
             } catch (IOException e) {
                 e.printStackTrace();
             }
