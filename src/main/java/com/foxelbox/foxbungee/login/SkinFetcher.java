@@ -80,14 +80,17 @@ public class SkinFetcher {
             File skinFile = new File(TEXTURES_FOLDER, uuid.toString() + ".json");
             if (skinFile.exists()) {
                 try {
-                    return fromJSON((JSONObject)new JSONParser().parse(new FileReader(skinFile)));
+                    FileReader fr = new FileReader(skinFile);
+                    LoginResult.Property ret = fromJSON((JSONObject)new JSONParser().parse(fr));
+                    fr.close();
+                    return ret;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
             try {
-                HttpURLConnection httpURLConnection = (HttpURLConnection)new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString().replaceAll("-", "")).openConnection();
+                HttpURLConnection httpURLConnection = (HttpURLConnection)new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString().replaceAll("-", "") + "?unsigned=false").openConnection();
                 if(httpURLConnection.getResponseCode() != 200) {
                     return null;
                 }
@@ -117,7 +120,9 @@ public class SkinFetcher {
             texturesObject.put("value", property.getValue());
             texturesObject.put("signature", property.getSignature());
             try {
-                texturesObject.writeJSONString(new FileWriter(skinFile));
+                FileWriter fw = new FileWriter(skinFile);
+                texturesObject.writeJSONString(fw);
+                fw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

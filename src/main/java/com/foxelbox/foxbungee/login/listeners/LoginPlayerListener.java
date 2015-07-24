@@ -90,6 +90,9 @@ public class LoginPlayerListener extends FoxBungeeListener {
         boolean hasTextures = false;
         for(LoginResult.Property property : properties) {
             if(property.getName().equals(SkinFetcher.TEXTURES_NAME)) {
+                if(property.getSignature() == null) {
+                    break;
+                }
                 hasTextures = true;
                 SkinFetcher.saveTextures(uuid, property);
                 break;
