@@ -113,6 +113,10 @@ public class SkinFetcher {
     }
 
     public static void saveTextures(UUID uuid, LoginResult.Property property) {
+        if(property.getSignature() == null) {
+            return;
+        }
+        
         synchronized (TEXTURES_FOLDER) {
             File skinFile = new File(TEXTURES_FOLDER, uuid.toString() + ".json");
             JSONObject texturesObject = new JSONObject();
