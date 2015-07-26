@@ -47,8 +47,9 @@ public class LoginPlayerListener extends FoxBungeeListener {
                 pendingConnection.setUniqueId(uuid);
 
                 SkinFetcher.addFetcher(uuid);
+
+                return;
             }
-            return;
         }
 
         data = FoxBungee.instance.redisManager.get("foxbungee:prelogin_vhost:" + vHost);
